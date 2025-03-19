@@ -16,7 +16,9 @@ This Telegram bot leverages artificial intelligence to analyze and process voice
 - **Python 3**
 - **Aiogram 3** (asynchronous Telegram framework)
 - **PostgreSQL** (for user data storage)
-- **Google Speech-to-Text / Whisper** (for voice recognition)
+- **OpenAI GPT-3.5 Turbo** (for generating AI-based responses)
+- **Google STT** (for voice recognition)
+- **Google TTS** (for voice synthesis)
 - **FLUX.1** (for image generation)
 
 ## 🛠 Installation & Setup
