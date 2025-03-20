@@ -39,6 +39,7 @@ Create a `.env` file and add:
 BOT_TOKEN=your_telegram_bot_token
 DATABASE_URL=your_postgresql_url
 OPENAI_API_KEY=your_openai_api_key
+HF_API_KEY=your_hf_api_key
 ```
 
 ### 4. Run the Bot
