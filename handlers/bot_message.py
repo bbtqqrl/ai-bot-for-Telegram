@@ -93,6 +93,7 @@ async def market_status(message: Message, state: FSMContext):
     data = db.get_user_data(message.chat.id)
     language = db.get_language(message.chat.id)
     language_name = await bot_func.get_language_name_by_code(db.get_voice_language(message.chat.id))
+    promt_generation = db.get_ai_prompt_bool(message.chat.id)
     text_language_dict = {
         'ua': f'<b>Ваш профіль </b>📋⤵️\n\n🆔 : <code>{message.chat.id}</code>\n📍 Юзернейм : {message.from_user.first_name}\n\n📝 <b>Відправлено повідомлень</b> : {data[0]}\n🔉 <b>Відправлено аудіо</b> : {data[1]}\n🎨 <b>Згенеровано зображень</b> : {data[2]}\n\n🌐 <b>Мова боту</b> : {language}\n🗣 <b>Мова ваших голосових повідомлень </b> : {language_name}',
         'eng': f'<b>Your Profile </b>📋⤵️\n\n🆔 : <code>{message.chat.id}</code>\n📍 Username : {message.from_user.first_name}\n\n📝 <b>Messages sent</b> : {data[0]}\n🔉 <b>Voice messages sent</b> : {data[1]}\n🎨 <b>Images generated</b> : {data[2]}\n\n🌐 <b>Bot language</b>: {language}\n🗣 <b>Your voice message language</b>: {language_name}',
