@@ -9,11 +9,11 @@ def language_button():
     return InlineKeyboardMarkup(inline_keyboard=buttons)
 
 
-def generate_button(language):
+def generate_button(language, prefix = ''):
     buttons = {
-        'ua': [InlineKeyboardButton(text='Так✅', callback_data='yes'),InlineKeyboardButton(text='Ні❌', callback_data='no')],
-        'eng': [InlineKeyboardButton(text='Yes✅', callback_data='yes'),InlineKeyboardButton(text='No❌', callback_data='no')],
-        'ru': [InlineKeyboardButton(text='Да✅', callback_data='yes'),InlineKeyboardButton(text='Нет❌', callback_data='no')]
+        'ua': [InlineKeyboardButton(text='Так✅', callback_data=f'yes{prefix}'),InlineKeyboardButton(text=f'Ні❌', callback_data=f'no{prefix}')],
+        'eng': [InlineKeyboardButton(text='Yes✅', callback_data=f'yes{prefix}'),InlineKeyboardButton(text=f'No❌', callback_data=f'no{prefix}')],
+        'ru': [InlineKeyboardButton(text='Да✅', callback_data=f'yes{prefix}'),InlineKeyboardButton(text=f'Нет❌', callback_data=f'no{prefix}')]
         
         }
     return InlineKeyboardMarkup(inline_keyboard=[buttons[language]])
@@ -21,9 +21,9 @@ def generate_button(language):
 
 def settings_button(language):
     buttons = {
-        'ua': [[InlineKeyboardButton(text='Налаштування синтезу 🔊', callback_data='synthesis_settings')], [InlineKeyboardButton(text='Мова вашого голосу 🌐', callback_data='voice_language_settings')], [InlineKeyboardButton(text='Змінити мову бота 🤖', callback_data='language_settings')]],
-        'ru': [[InlineKeyboardButton(text='Настройки синтеза 🔊', callback_data='synthesis_settings')],  [InlineKeyboardButton(text='Язык вашего голоса 🌐', callback_data='voice_language_settings')],  [InlineKeyboardButton(text='Изменить язык бота 🤖', callback_data='language_settings')]],  
-        'eng': [[InlineKeyboardButton(text='Synthesis Settings 🔊', callback_data='synthesis_settings')],  [InlineKeyboardButton(text='Your Voice Language 🌐', callback_data='voice_language_settings')],  [InlineKeyboardButton(text='Change Bot Language 🤖', callback_data='language_settings')]]}
+        'ua': [[InlineKeyboardButton(text='Налаштування синтезу 🔊', callback_data='synthesis_settings')], [InlineKeyboardButton(text='Мова вашого голосу 🌐', callback_data='voice_language_settings')], [InlineKeyboardButton(text='Налаштування генерації 🖼', callback_data='generation_settings')], [InlineKeyboardButton(text='Змінити мову бота 🤖', callback_data='language_settings')]],
+        'ru': [[InlineKeyboardButton(text='Настройки синтеза 🔊', callback_data='synthesis_settings')],  [InlineKeyboardButton(text='Язык вашего голоса 🌐', callback_data='voice_language_settings')], [InlineKeyboardButton(text='Настройка генерации 🖼', callback_data='generation_settings')],  [InlineKeyboardButton(text='Изменить язык бота 🤖', callback_data='language_settings')]],  
+        'eng': [[InlineKeyboardButton(text='Synthesis Settings 🔊', callback_data='synthesis_settings')],  [InlineKeyboardButton(text='Your Voice Language 🌐', callback_data='voice_language_settings')], [InlineKeyboardButton(text='Generation settingsа 🖼', callback_data='generation_settings')],  [InlineKeyboardButton(text='Change Bot Language 🤖', callback_data='language_settings')]]}
     return InlineKeyboardMarkup(inline_keyboard=buttons[language])
 
 def profile_settings_button(language):

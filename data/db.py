@@ -18,13 +18,14 @@ class Database:
         DB_PASSWORD = os.getenv("DB_PASSWORD")
         if self.connection:
             self.connection.close()
-            self.connection = psycopg2.connect(
+
+        self.connection = psycopg2.connect(
                 host=DB_HOST,
                 port=DB_PORT,
                 dbname=DB_NAME,
                 user=DB_USER,
-                password=DB_PASSWORD
-            )
+                password=DB_PASSWORD)
+
         self.cursor = self.connection.cursor()
 
     def execute_query(self, query, params=None, fetchone=False):

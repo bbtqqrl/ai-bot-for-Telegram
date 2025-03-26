@@ -62,6 +62,38 @@ async def handle_pagination(callback_query: CallbackQuery):
         print(e)
         await callback_query.answer("❌ All free image generation used. Try again later")
 
+@router.callback_query(F.data.in_(['yes_generation', 'no_generation']))
+async def handle_pagination(callback_query: CallbackQuery):
+    language = db.get_language(callback_query.from_user.id)
+    text_changes = {
+        'ua': 'Зміни застосовані успішно!',
+        'eng': 'Changes applied successfully!',
+        'ru': 'Изменения применены успешно!'
+    }
+    text_language_dict = {
+        "yes_generation" :
+            {"eng": f"Your prompt will be optimized using AI. 🤖\n\nYou can write your query in any way or record it by voice. 🎙️\nThe main thing is the meaning, and AI will improve the description for the best result! 🚀\n\nGood luck to you! 🍀",
+            "ru": f"Ваш промт будет оптимизирован с помощью ИИ. 🤖\n\nМожете писать запрос любой записью или голосом. 🎙️\nГлавное — смысл, а ИИ улучшит описание для наилучшего результата! 🚀\n\nУдачи вам! 🍀",
+            "ua": f"Ваш промт буде оптимізований за допомогою ШІ. 🤖\n\nМожете писати запит будь-як або записувати голосом. 🎙️\nГоловне — сенс, а ШІ покращить опис для найкращого результату! 🚀\n\nУдачі вам! 🍀"},
+        "no_generation" :
+            {"eng": f"Your prompt will not be optimized!\n\nThe AI ​​for image generation understands only English. 🤖\nDescribe everything in detail. ✍️\nUse adjectives, style, lighting, angle.\n\nGood luck! 🍀",
+            "ru": f"Ваш промт не будет оптимизирован!\n\nИИ для генерации изображений понимает только английский. 🤖\nОписывайте все подробно. ✍️\nИспользуйте прилагательные, стиль, освещение, ракурс.\n\nУдачи вам! 🍀",
+            "ua": f"Ваш промт не буде оптимізований!\n\nШІ для генерації зображень розуміє лише англійську. 🤖\nОписуйте все детально. ✍️\nВикористовуйте прикметники, стиль, освітлення, ракурс.\n\nУдачі вам! 🍀"}}
+    db.update_ai_prompt_bool(callback_query.from_user.id, {'yes_generation' : True, 'no_generation' : False}[callback_query.data])
+    await callback_query.message.edit_text(text_changes[language])
+    await bot.send_message(chat_id=callback_query.from_user.id, text=text_language_dict[callback_query.data][language],reply_markup=builders.main_kb(language))
+
+
+
+@router.callback_query(F.data == 'generation_settings')
+async def process_callback_pagination(callback_query: CallbackQuery):
+    language = db.get_language(callback_query.from_user.id)
+    text_language_dict = {
+        "eng": f"⚙️ Optimize your prompt (query) to the image generator using AI?",
+        "ru": f"⚙️ Оптимизировать ваш промт (запрос) к генератору изображений с помощью ИИ?",
+        "ua": f"⚙️ Оптимізувати ваш промт (запит) до генератору зображень за допомогою ШІ?"}
+
+    await callback_query.message.answer(text_language_dict[language], reply_markup=inline.generate_button(language, '_generation'))
 
 @router.callback_query(F.data == 'synthesis_settings')
 async def process_callback_pagination(callback_query: CallbackQuery):
@@ -196,11 +228,11 @@ async def set_voice_language(callback_query: CallbackQuery, state: FSMContext):
     if not db.get_voice_language(user_id): 
         data = await state.get_data()
         file_path = data.get("voice_path")
-        promt = await bot_func.audio_transcription(file_path, new_language)
+        prompt = await bot_func.audio_transcription(file_path, new_language)
         os.remove(file_path)
         if file_path:
             if db.get_ai_prompt_bool(user_id):
-                prompt = await bot_func.prompt_ai_response(promt)
+                prompt = await bot_func.prompt_ai_response(prompt)
             language_dict = {
                 'ua': ['Ось ваш промт ⤵️', 'Генерувати зображення?'],
                 'eng': ['Here is your prompt ⤵️', 'Generate image?'],

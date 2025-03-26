@@ -47,18 +47,18 @@ async def market_status(message: Message,  state: FSMContext):
 @router.message(F.text.in_(["Генерація зображень🖼", "Image generation🖼", "Генерация изображений🖼"]))
 async def send_and_delete_image(message: Message, state: FSMContext):
     language_dict = {
-    "ua": "Введіть текстовий опис для генерації зображення ✍️⤵️\n\nВаш запит буде автоматично оптимізовано за допомогою штучного інтелекту, щоб отримане зображення було якомога точнішим і якіснішим.\n\nЗа бажанням ви можете змінити цей параметр у налаштуваннях профілю.",
+    "ua": "Введіть текстовий опис для генерації зображення ✍️⤵️\n\nВаш запит <b><u>буде</u></b> автоматично оптимізовано за допомогою штучного інтелекту, щоб отримане зображення було якомога точнішим і якіснішим.\n\nЗа бажанням ви можете змінити цей параметр у налаштуваннях профілю.",
     
-    "eng": "Enter a text description for image generation ✍️⤵️\n\nYour prompt will be automatically optimized using artificial intelligence to ensure the generated image is as accurate and high-quality as possible.\n\nIf you prefer, you can change this setting in your profile settings.",
+    "eng": "Enter a text description for image generation ✍️⤵️\n\nYour prompt <b><u>will be</u></b> automatically optimized using artificial intelligence to ensure the generated image is as accurate and high-quality as possible.\n\nIf you prefer, you can change this setting in your profile settings.",
     
-    "ru": "Введите текстовое описание для генерации изображения ✍️⤵️\n\nВаш запрос будет автоматически оптимизирован с помощью искусственного интеллекта, чтобы созданное изображение было как можно точнее и качественнее.\n\nПри желании вы можете изменить этот параметр в настройках профиля."}
+    "ru": "Введите текстовое описание для генерации изображения ✍️⤵️\n\nВаш запрос <b><u>будет</u></b> автоматически оптимизирован с помощью искусственного интеллекта, чтобы созданное изображение было как можно точнее и качественнее.\n\nПри желании вы можете изменить этот параметр в настройках профиля."}
 
     language_dict_false = {
-    "ua": "Введіть текстовий опис для генерації зображення ✍️⤵️\n\nВаш запит не буде оптимізовано за допомогою штучного інтелекту.\n\nЗа бажанням ви можете змінити цей параметр у налаштуваннях профілю.",
+    "ua": "Введіть текстовий опис для генерації зображення ✍️⤵️\n\nВаш запит <b><u>не буде</u></b> оптимізовано за допомогою штучного інтелекту.\n\nЗа бажанням ви можете змінити цей параметр у налаштуваннях профілю.",
     
-    "eng": "Enter a text description for image generation ✍️⤵️\n\nYour prompt will be not optimized using ai\n\nIf you prefer, you can change this setting in your profile settings.",
+    "eng": "Enter a text description for image generation ✍️⤵️\n\nYour prompt <b><u>will be not</u></b> optimized using ai\n\nIf you prefer, you can change this setting in your profile settings.",
     
-    "ru": "Введите текстовое описание для генерации изображения ✍️⤵️\n\nВаш запрос не будет оптимизирован с помощью искусственного интеллекта\n\nПри желании вы можете изменить этот параметр в настройках профиля."}
+    "ru": "Введите текстовое описание для генерации изображения ✍️⤵️\n\nВаш запрос <b><u>не будет</u></b> оптимизирован с помощью искусственного интеллекта\n\nПри желании вы можете изменить этот параметр в настройках профиля."}
 
     language = db.get_language(message.chat.id)
     prompt_bool = db.get_ai_prompt_bool(message.chat.id)
@@ -93,11 +93,11 @@ async def market_status(message: Message, state: FSMContext):
     data = db.get_user_data(message.chat.id)
     language = db.get_language(message.chat.id)
     language_name = await bot_func.get_language_name_by_code(db.get_voice_language(message.chat.id))
-    promt_generation = db.get_ai_prompt_bool(message.chat.id)
+    prompt_generation = {'ua': {True: 'Ввімкнено', False: 'Вимкнено'}, 'eng' : {True: 'Enabled', False: 'Disabled'}, 'ru' : {True: 'Включено', False: 'Выключено'}}[language][db.get_ai_prompt_bool(message.chat.id)]
     text_language_dict = {
-        'ua': f'<b>Ваш профіль </b>📋⤵️\n\n🆔 : <code>{message.chat.id}</code>\n📍 Юзернейм : {message.from_user.first_name}\n\n📝 <b>Відправлено повідомлень</b> : {data[0]}\n🔉 <b>Відправлено аудіо</b> : {data[1]}\n🎨 <b>Згенеровано зображень</b> : {data[2]}\n\n🌐 <b>Мова боту</b> : {language}\n🗣 <b>Мова ваших голосових повідомлень </b> : {language_name}',
-        'eng': f'<b>Your Profile </b>📋⤵️\n\n🆔 : <code>{message.chat.id}</code>\n📍 Username : {message.from_user.first_name}\n\n📝 <b>Messages sent</b> : {data[0]}\n🔉 <b>Voice messages sent</b> : {data[1]}\n🎨 <b>Images generated</b> : {data[2]}\n\n🌐 <b>Bot language</b>: {language}\n🗣 <b>Your voice message language</b>: {language_name}',
-        'ru': f'<b>Ваш профиль </b>📋⤵️\n\n🆔 : <code>{message.chat.id}</code>\n📍 Юзернейм : {message.from_user.first_name}\n\n📝 <b>Отправлено сообщений</b> : {data[0]}\n🔉 <b>Отправлено аудиосообщений</b> : {data[1]}\n🎨 <b>Сгенерировано изображений</b> : {data[2]}\n\n🌐 <b>Язык бота</b>: {language}\n🗣 <b>Язык ваших голосовых сообщений</b>: {language_name}'}
+        'ua': f'<b>Ваш профіль </b>📋⤵️\n\n🆔 : <code>{message.chat.id}</code>\n📍 Юзернейм : {message.from_user.first_name}\n\n📝 <b>Відправлено повідомлень</b> : {data[0]}\n🔉 <b>Відправлено аудіо</b> : {data[1]}\n🎨 <b>Згенеровано зображень</b> : {data[2]}\n\n🌐 <b>Мова боту</b> : {language}\n🗣 <b>Мова ваших голосових повідомлень </b> : {language_name}\n🖼 <b>Оптимізація генерації фото </b>: {prompt_generation}',
+        'eng': f'<b>Your Profile </b>📋⤵️\n\n🆔 : <code>{message.chat.id}</code>\n📍 Username : {message.from_user.first_name}\n\n📝 <b>Messages sent</b> : {data[0]}\n🔉 <b>Voice messages sent</b> : {data[1]}\n🎨 <b>Images generated</b> : {data[2]}\n\n🌐 <b>Bot language</b>: {language}\n🗣 <b>Your voice message language</b>: {language_name}\n🖼 <b>Оптимізація генерації фото </b>: {prompt_generation}',
+        'ru': f'<b>Ваш профиль </b>📋⤵️\n\n🆔 : <code>{message.chat.id}</code>\n📍 Юзернейм : {message.from_user.first_name}\n\n📝 <b>Отправлено сообщений</b> : {data[0]}\n🔉 <b>Отправлено аудиосообщений</b> : {data[1]}\n🎨 <b>Сгенерировано изображений</b> : {data[2]}\n\n🌐 <b>Язык бота</b>: {language}\n🗣 <b>Язык ваших голосовых сообщений</b>: {language_name}\n🖼 <b>Photo generation optimization </b>: {prompt_generation}'}
 
     await message.answer(text_language_dict[language], reply_markup=inline.profile_settings_button(language))
 
@@ -160,6 +160,7 @@ async def process_prompt(message: Message, state: FSMContext):
 async def process_prompt(message: Message, state: FSMContext):
     await state.clear()
     language = db.get_language(message.chat.id)
+    prompt = None
     language_dict = {
         'ua': ['Ось ваш промт ⤵️', 'Генерувати зображення?'],
         'eng': ['Here is your prompt ⤵️', 'Generate image?'],
@@ -173,10 +174,10 @@ async def process_prompt(message: Message, state: FSMContext):
         await bot.download_file(file.file_path, file_path)
         voice_language = db.get_voice_language(message.chat.id)
         if voice_language:
-            promt = await bot_func.audio_transcription(file_path, voice_language) # Не зрозуміло якк мова , треба використати if elif db.get_VOICE LANGUAGE != none і тд
+            prompt = await bot_func.audio_transcription(file_path, voice_language) # Не зрозуміло якк мова , треба використати if elif db.get_VOICE LANGUAGE != none і тд
             os.remove(file_path)
         else:
-            promt = None
+            prompt = None
             await state.update_data(voice_path=file_path)
             text_language_dict = {
                 "eng": "🎙️ Select the audio language for accurate transcription.",
@@ -184,9 +185,9 @@ async def process_prompt(message: Message, state: FSMContext):
                 "ua": "🎙️ Оберіть мову аудіо для якісного розпізнавання.",}
             await message.answer(text_language_dict[language], reply_markup=builders.create_language_keyboard(language, prefix='recognition'))
             await state.set_state(VoiceLanguageInGeneration.waiting_for_language_in_generation)
-    if promt:
+    if prompt:
         if db.get_ai_prompt_bool(message.chat.id):
-            prompt = await bot_func.prompt_ai_response(promt)
+            prompt = await bot_func.prompt_ai_response(prompt)
         response = f"{language_dict[language][0]}\n\n<code>{prompt}</code>\n\n{language_dict[language][1]}"
         await message.answer(response, reply_markup=inline.generate_button(language))
         db.update_image_prompt(message.chat.id, prompt)
