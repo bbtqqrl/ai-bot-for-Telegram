@@ -21,7 +21,7 @@ This Telegram bot leverages artificial intelligence to analyze and process voice
 - **Google TTS** (for voice synthesis)
 - **FLUX.1** (for image generation)
 
-## 🛠 Installation & Setup
+## Installation & Setup
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/username/repo.git
@@ -52,6 +52,6 @@ python main.py
 - Enhancing voice message processing.
 - Optimizing performance for faster response times.
 
-## 💌 Feedback
+## Feedback
 If you have ideas or suggestions, feel free to open an issue or contact me on Telegram!
 
