@@ -1,18 +1,18 @@
 # AI Telegram Bot
 
-## 🤖 Description
+## Description
 This Telegram bot leverages artificial intelligence to analyze and process voice and text messages. It can:
 - Detect the language of voice messages and transcribe them correctly.
 - Generate AI-powered responses.
 - Create images based on text prompts.
 
-## ✨ Key Features
-- ✏️ **Voice Message Recognition**: Automatically detects the language of voice messages and converts them to text.
-- 🌐 **Multi-Language Support**: Allows users to switch bot languages and process messages in different languages.
-- 🎨 **Image Generation**: Uses AI to create images from text descriptions.
-- 🧠 **Interactive & Fast**: Intuitive interface with quick user interaction.
+##  Key Features
+- **Voice Message Recognition**: Automatically detects the language of voice messages and converts them to text.
+- **Multi-Language Support**: Allows users to switch bot languages and process messages in different languages.
+- **Image Generation**: Uses AI to create images from text descriptions.
+- **Interactive & Fast**: Intuitive interface with quick user interaction.
 
-## 💪 Technologies Used
+## Technologies Used
 - **Python 3**
 - **Aiogram 3** (asynchronous Telegram framework)
 - **PostgreSQL** (for user data storage)
@@ -47,7 +47,7 @@ HF_API_KEY=your_hf_api_key
 python main.py
 ```
 
-## 🚀 Future Plans
+## Future Plans
 - Adding support for more AI models.
 - Enhancing voice message processing.
 - Optimizing performance for faster response times.
